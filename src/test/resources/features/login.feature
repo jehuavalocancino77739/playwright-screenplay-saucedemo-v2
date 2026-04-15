@@ -1,8 +1,4 @@
-@saucedemo
-Feature: Login on SauceDemo
-  As a registered customer
-  I want to log in to the Sauce Demo store
-  So that I can access the product catalog
+Feature: Login on Sauce Demo
 
   Background:
     Given Alice is on the SauceDemo login page
@@ -18,3 +14,17 @@ Feature: Login on SauceDemo
     When she logs in with username "locked_out_user" and password "secret_sauce"
     Then she should see the error message "Epic sadface: Sorry, this user has been locked out."
     And she should remain on the login page
+
+  @login @advanced
+  Scenario: Performance glitch user login takes more than 3 seconds
+    When she logs in with username "performance_glitch_user" and password "secret_sauce"
+    Then she should be redirect to the inventory page
+    And the page load time should be greater than 3000 milliseconds
+
+  @login @advanced
+  Scenario: Verify session persistence after login
+    When she logs in with username "standard_user" and password "secret_sauce"
+    And she navigates to the cart page
+    And she navigates back to the inventory page
+    Then she should still be logged in
+    And she should see the page title "Products"

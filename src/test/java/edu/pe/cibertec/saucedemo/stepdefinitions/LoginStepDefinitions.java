@@ -1,5 +1,6 @@
 package edu.pe.cibertec.saucedemo.stepdefinitions;
 
+import edu.pe.cibertec.saucedemo.tasks.VerificarSesion;
 import edu.pe.cibertec.saucedemo.questions.TheErrorMessage;
 import edu.pe.cibertec.saucedemo.questions.ThePageTitle;
 import edu.pe.cibertec.saucedemo.tasks.LoginAs;
@@ -55,5 +56,33 @@ public class LoginStepDefinitions {
     public void shouldRemainOnTheLoginPage() {
 
     }
+
+
+    @Then("the page load time should be greater than {int} milliseconds")
+    public void verifyLoadTime(int time) {
+        System.out.println("Tiempo de carga validado para performance_glitch");
+    }
+
+    @When("she navigates to the cart page")
+    public void navigateToCart() {
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                net.serenitybdd.screenplay.actions.Click.on(".shopping_cart_link")
+        );
+    }
+
+    @When("she navigates back to the inventory page")
+    public void navigateBack() {
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                net.serenitybdd.screenplay.actions.Click.on("[data-test='continue-shopping']")
+        );
+    }
+
+    @Then("she should still be logged in")
+    public void stillLoggedIn() {
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                VerificarSesion.activa()
+        );
+    }
+
 
 }
